@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, Container, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import Header from '../components/Header/Header.js';
-import Axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
+import DisplayAlert from '../components/DisplayAlert.js';
+import { updateUser, loadUserData } from '../services/UserService.js';
 
 const UserPageEdit = () => {
 
@@ -13,19 +14,35 @@ const UserPageEdit = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const history = useHistory();
     const [displayAlert, setDisplayAlert] = useState(false);
-
-    const userApiEndPoint = `/api/users/${userId}`;
+    const [alertStatus, setAlertStatus] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
     useEffect(()=>{
-        const loadData = async () => {
-            const response = await Axios.get(userApiEndPoint);
-            setFirstName(response.data.firstName);
-            setLastName(response.data.lastName);
-            setEmail(response.data.email);
-            setPhoneNumber(response.data.phoneNumber);
+        const loadData = async () =>{
+            await loadUserData(userId)
+            .then(userData => {
+                if(!userData){
+                    setAlertStatus('fail');
+                    setAlertMessage('There was an error uploading the user!')
+                    setDisplayAlert(true);
+                }else{
+                setFirstName(userData.firstName);
+                setLastName(userData.lastName);
+                setEmail(userData.email);
+                setPhoneNumber(userData.phoneNumber);
+                }
+            }
+            )
         }
         loadData();
-    },[userApiEndPoint])
+        return ()=>{console.log("unmounted")}
+    },[])
+
+    const setAlert = () => {
+        setAlertStatus('success');
+        setAlertMessage('Congragulations, you successfully updated user!')
+        setDisplayAlert(true);
+    }
 
     const handleChange = event => {
         const value = event.target.value;
@@ -47,22 +64,15 @@ const UserPageEdit = () => {
         }
     }
 
-    const handleSubmit = async () =>{
-        try{
-            await Axios.put(userApiEndPoint, {
-                'firstName'  : firstName,
-                'lastName'   : lastName,
-                'email'      : email,
-                'phoneNumber': phoneNumber,
-            }).then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
-            setDisplayAlert(true);
-        }   
-        catch(error){
-            console.log("Error updating user" + error);
-        }
+    const handleSubmit = async event =>{
+        event.preventDefault();
+        const newUser = {firstName, lastName, email, phoneNumber};
+        await updateUser(userId, newUser)
+        .then(successfullyUpdated => {
+            if(successfullyUpdated){
+                setAlert();
+            }
+        })
     }
 
     return(
@@ -70,11 +80,7 @@ const UserPageEdit = () => {
         <Header />
         <Container>
         <Button onClick={()=>{history.push('/users')}}>Return</Button>
-            <Alert color='success' isOpen={displayAlert}>
-                <p>
-                    Congragulations! Your User was successfully updated!
-                </p>
-            </Alert>
+        <DisplayAlert status={alertStatus} showAlert={displayAlert} message={alertMessage} />
         <Form onSubmit={handleSubmit}>
             <FormGroup>
                 <Label for="firstName">First Name</Label>

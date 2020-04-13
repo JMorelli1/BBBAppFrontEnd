@@ -3,8 +3,8 @@ import Header from '../components/Header/Header.js';
 import {
   Row, Container, Col
 } from 'reactstrap';
-import axios from 'axios';
 import UserAndJobCardList from '../components/UserAndJobCardList';
+import { loadAllUserData } from '../services/UserService.js';
 
 const UserPage = () =>{
 
@@ -12,13 +12,12 @@ const UserPage = () =>{
 
     useEffect(() =>{
         const loadData = async () => {
-            try{ 
-                const response = await axios.get("/api/users");
-                setUserState(response.data);
-             }
-              catch(Exception){
-                console.log(Exception);
-             }
+          await loadAllUserData()
+          .then(userData => {
+            if(userData){
+              setUserState(userData)
+            }
+          });
         }
         loadData();
     },[]);
