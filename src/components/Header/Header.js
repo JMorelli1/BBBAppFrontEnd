@@ -11,9 +11,9 @@ import {
 
 const Header = () =>{
     return(
-        <div>
+        <>
             <img src={communityPic} className='BannerImage' alt='' />
-            <Navbar color="dark">
+            <Navbar color="dark" sticky="top">
                 <Nav>
                     <NavbarBrand href="/">BBB Home</NavbarBrand>
                     <NavItem>
@@ -24,7 +24,7 @@ const Header = () =>{
                     </NavItem>
                 </Nav>
             </Navbar>
-        </div>
+        </>
     );
 }
 export default Header;

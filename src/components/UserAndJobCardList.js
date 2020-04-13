@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import JobCard from './JobCard';
 import UserCard from './UserCard';
 import {Col, Collapse, Button} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 const UserAndJobCardList = (props) => {
   const [activePostedJob, setActivePostedJob] = useState([]);
@@ -38,11 +39,12 @@ const UserAndJobCardList = (props) => {
                 <UserCard key={user.userId} {...user} />,
                 <Button color="primary"  style={{ margin: 20 }} onClick={()=>togglePostedJobButtons(index)}>Posted Jobs</Button>,
                 <Button color="primary"  style={{ margin: 20 }} onClick={()=>toggleAssignedJobButtons(index)}>Assigned Jobs</Button>,
+                <Link to={`/useredit/${user.userId}`}><Button color="primary">Edit</Button></Link>,
                 user.postedJobs.map(job => {
                     return(
                         <Collapse isOpen={activePostedJob.includes(index)}>
                           <Col sm={{order: 1, offset: 2}} style={{marginBottom: 20}}>
-                              <JobCard key={job.jobId} {...job} />
+                              <JobCard key={job.jobId} showUser={false} {...job} />
                           </Col>
                         </Collapse>
                     );
@@ -51,7 +53,7 @@ const UserAndJobCardList = (props) => {
                     return(
                         <Collapse isOpen={activeAssignedJob.includes(index)}>
                           <Col sm={{ order: 2, offset: 2}} style={{marginBottom: 20}}>
-                              <JobCard key={job.jobId} {...job} />
+                              <JobCard key={job.jobId} showUser={false} {...job} />
                           </Col>
                         </Collapse>
                     );

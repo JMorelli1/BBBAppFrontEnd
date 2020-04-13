@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Container, Alert } from 'reactstrap';
 import Header from '../components/Header/Header.js';
 import Axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
@@ -7,7 +7,6 @@ import { useParams, useHistory } from 'react-router-dom';
 const UserPageEdit = () => {
 
     const {userId} = useParams();
-    const [id, setId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -19,22 +18,18 @@ const UserPageEdit = () => {
 
     useEffect(()=>{
         const loadData = async () => {
-            const response = await Axios.get(userApiEndPoint)
-            setId(response.data.userId)
-            setFirstName(response.data.firstName)
-            setLastName(response.data.lastName)
-            setEmail(response.data.email)
-            setPhoneNumber(response.data.phoneNumber)
+            const response = await Axios.get(userApiEndPoint);
+            setFirstName(response.data.firstName);
+            setLastName(response.data.lastName);
+            setEmail(response.data.email);
+            setPhoneNumber(response.data.phoneNumber);
         }
         loadData();
-    },[])
+    },[userApiEndPoint])
 
     const handleChange = event => {
         const value = event.target.value;
         switch(event.target.name){
-            case 'id':
-                setId(value);
-                break;
             case 'firstName':
                 setFirstName(value);
                 break;
@@ -46,6 +41,8 @@ const UserPageEdit = () => {
                 break;
             case 'phoneNumber':
                 setPhoneNumber(value);
+                break;
+            default:
                 break;
         }
     }
@@ -79,10 +76,6 @@ const UserPageEdit = () => {
                 </p>
             </Alert>
         <Form onSubmit={handleSubmit}>
-            {/* <FormGroup>
-                <Label for="userId">User ID</Label>
-                <Input type='text' defaultValue={id} id="userId" name="id" onChange={handleChange} />
-            </FormGroup> */}
             <FormGroup>
                 <Label for="firstName">First Name</Label>
                 <Input type='text' defaultValue={firstName} id="firstName" name="firstName" onChange={handleChange} />
