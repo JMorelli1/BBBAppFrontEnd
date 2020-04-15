@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { Button, Form, Container } from "reactstrap";
-import { updateUser, loadUserData } from "../../services/UserService.js";
-import DisplayAlert from "../../components/DisplayAlert.js";
-import EditFormInput from "../../components/EditFormInput.js";
+import { updateUser, loadUserData } from "../../../services/UserService.js";
+import DisplayAlert from "../../../components/DisplayAlert.js";
+import EditFormInput from "../../../components/EditFormInput.js";
 
 const UserPageEdit = () => {
   const { userId } = useParams();

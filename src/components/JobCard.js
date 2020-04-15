@@ -2,14 +2,13 @@ import React from "react";
 import { Card, CardText, CardBody, CardTitle } from "reactstrap";
 
 const JobCard = (props) => {
-  const job = props;
   return (
     <Card style={{ background: "silver" }}>
       <CardBody>
-        <CardTitle>Job Title: {job.jobTitle}</CardTitle>
-        <CardText>Job Description: {job.description}</CardText>
+        <CardTitle>Job Title: {props.jobTitle}</CardTitle>
+        <CardText>Job Description: {props.description}</CardText>
         <CardText hidden={!props.showUser}>
-          Posted User: {job.postedUser.firstName} {job.postedUser.lastName}
+          Posted User: {props.postedUser.firstName} {props.postedUser.lastName}
         </CardText>
       </CardBody>
     </Card>

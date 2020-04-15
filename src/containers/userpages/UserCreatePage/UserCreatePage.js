@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form, Container } from "reactstrap";
-import DisplayAlert from "../../components/DisplayAlert.js";
-import EditFormInput from "../../components/EditFormInput.js";
-import { createUser } from "../../services/UserService.js";
+import DisplayAlert from "../../../components/DisplayAlert.js";
+import EditFormInput from "../../../components/EditFormInput.js";
+import { createUser } from "../../../services/UserService.js";
 
 const UserCreatePage = () => {
   const [displayAlert, setDisplayAlert] = useState(false);

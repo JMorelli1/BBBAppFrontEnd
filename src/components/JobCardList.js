@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { Button, Col } from "reactstrap";
 import JobCard from "./JobCard";
-import { Button, Collapse, Col } from "reactstrap";
-import UserCard from "./UserCard";
+import CollapseUserList from "../components/CollapseUserList.js";
 
 const JobCardList = (props) => {
   const [assignedUser, setAssignedUser] = useState([]);
 
-  const toggleAssignedUser = (assignedUserIndex) => {
+  const toggleAssignedUsers = (assignedUserIndex) => {
     if (!assignedUser.includes(assignedUserIndex)) {
       setAssignedUser(assignedUser.concat(assignedUserIndex));
     } else {
@@ -19,26 +19,21 @@ const JobCardList = (props) => {
   return (
     <>
       {props.postedJobs.map((postedJob, index) => [
-        <JobCard key={postedJob.jobId} showUser={true} {...postedJob} />,
-        <Button
-          color="primary"
-          style={{ margin: 20 }}
-          onClick={() => toggleAssignedUser(index)}
-        >
-          Assigned Users
-        </Button>,
-        postedJob.assignedUsers.map((user) => {
-          return (
-            <Collapse isOpen={assignedUser.includes(index)}>
-              <Col
-                sm={{ order: 2, offset: 2, size: 5 }}
-                style={{ marginBottom: 30 }}
-              >
-                <UserCard key={user.userId} {...user} />
-              </Col>
-            </Collapse>
-          );
-        }),
+        <Col>
+          <JobCard key={postedJob.jobId} showUser={true} {...postedJob} />
+          <Button
+            color="primary"
+            style={{ margin: 20 }}
+            onClick={() => toggleAssignedUsers(index)}
+          >
+            Assigned Users
+          </Button>
+          <CollapseUserList
+            userList={postedJob.assignedUsers}
+            index={index}
+            users={assignedUser}
+          />
+        </Col>,
       ])}
     </>
   );

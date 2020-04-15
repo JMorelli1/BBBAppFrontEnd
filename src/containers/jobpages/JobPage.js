@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import JobCardList from "../components/JobCardList";
-import { Container, Col, Row } from "reactstrap";
-import { getAllJobs } from "../services/JobService";
+import JobCardList from "../../components/JobCardList";
+import { Container, Row } from "reactstrap";
+import { getAllJobs } from "../../services/JobService";
 
 const JobPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -19,10 +19,8 @@ const JobPage = () => {
 
   return (
     <Container style={{ marginTop: 20 }}>
-      <Row>
-        <Col sm={{ size: 10 }}>
-          <JobCardList postedJobs={jobs} showUser={true} />
-        </Col>
+      <Row sm={2}>
+        <JobCardList postedJobs={jobs} />
       </Row>
     </Container>
   );

@@ -8,7 +8,13 @@ const UserCard = (props) => {
   return (
     <Card style={{ background: "silver" }}>
       <CardBody>
-        <CardImg top width="100%" src={profile} alt="Card profile temp" />
+        <CardImg
+          hidden={!props.showUserImg}
+          top
+          width="100%"
+          src={profile}
+          alt="Card profile temp"
+        />
         <hr />
         <CardText>
           {user.firstName} {user.lastName}

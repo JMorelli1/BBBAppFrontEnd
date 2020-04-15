@@ -27,7 +27,6 @@ export const loadAllUserData = async () => {
 export const createUser = async (newUser) => {
   return axios
     .post("/api/users", {
-      userId: newUser.userId,
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       email: newUser.email,

@@ -11,3 +11,22 @@ export const getAllJobs = async () => {
       return false;
     });
 };
+
+export const createJob = async (newJob, userId) => {
+  return axios
+    .post(`/api/jobs/&{userId}`, {
+      jobTitle: newJob.jobTitle,
+      description: newJob.description,
+    })
+    .then((res) => {
+      console.log(res);
+      console.log(res.data);
+      if (res.status === 200) {
+        return true;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+};

@@ -9,6 +9,7 @@ const DeleteButton = (props) => {
     await deleteUser(props.selectedId).then((isDeleted) => {
       if (isDeleted) {
         toggle();
+        props.refreshPage();
       }
     });
   };
