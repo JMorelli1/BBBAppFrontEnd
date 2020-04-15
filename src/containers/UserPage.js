@@ -15,7 +15,7 @@ const UserPage = () => {
       });
     };
     loadData();
-  }, []);
+  }, [users]);
 
   return (
     <Container style={{ marginTop: 20 }}>

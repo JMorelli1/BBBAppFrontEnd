@@ -11,16 +11,9 @@ const UserCreatePage = () => {
 
   const userInfo = {};
 
-  const setAlert = () => {
-    setAlertStatus("success");
-    setAlertMessage("Congragulations, you successfully create a user!");
-    setDisplayAlert(true);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newUser = {
-      userId: event.target.userId.value,
       firstName: event.target.firstName.value,
       lastName: event.target.lastName.value,
       email: event.target.email.value,
@@ -28,16 +21,15 @@ const UserCreatePage = () => {
     };
     await createUser(newUser).then((isCreated) => {
       if (isCreated) {
-        setAlert(true);
+        setDisplayAlert(true);
         setAlertStatus("success");
         setAlertMessage("You have successfully created a new user!");
       } else {
-        setAlert(true);
+        setDisplayAlert(true);
         setAlertStatus("fail");
         setAlertMessage("Error creating a new user!");
       }
     });
-    console.log(newUser);
   };
 
   return (
@@ -50,25 +42,20 @@ const UserCreatePage = () => {
         />
         <Form onSubmit={handleSubmit}>
           <EditFormInput
-            name="userId"
-            label="User ID"
-            value={userInfo.userId}
-          />
-          <EditFormInput
             name="firstName"
             label="First Name"
-            value={userInfo.firstName}
+            defaultValue={userInfo.firstName}
           />
           <EditFormInput
             name="lastName"
             label="Last Name"
-            value={userInfo.lastName}
+            defaultValue={userInfo.lastName}
           />
           <EditFormInput name="email" label="Email" value={userInfo.email} />
           <EditFormInput
             name="phoneNumber"
             label="Phone Number"
-            value={userInfo.phoneNumber}
+            defaultValue={userInfo.phoneNumber}
           />
           <Button color="primary" type="submit">
             Submit

@@ -66,3 +66,17 @@ export const updateUser = async (userId, newUser) => {
       return false;
     });
 };
+
+export const deleteUser = async (userId) => {
+  return axios
+    .delete(`/api/users/${userId}`)
+    .then((res) => {
+      if (res.status === 200) {
+        return true;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+};
