@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import JobCardList from "../../components/JobCardList";
 import { Container, Row } from "reactstrap";
-import { getAllJobs } from "../../services/JobService";
+import { loadAllJobData } from "../../services/JobService";
 
 const JobPage = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
-      await getAllJobs().then((jobData) => {
+      await loadAllJobData().then((jobData) => {
         if (jobData) {
           setJobs(jobData);
         }
@@ -17,10 +17,14 @@ const JobPage = () => {
     loadData();
   }, []);
 
+  const refreshPage = () => {
+    window.location.reload(true);
+  };
+
   return (
     <Container style={{ marginTop: 20 }}>
       <Row sm={2}>
-        <JobCardList postedJobs={jobs} />
+        <JobCardList postedJobs={jobs} refreshPage={refreshPage} />
       </Row>
     </Container>
   );

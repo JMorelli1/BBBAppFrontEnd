@@ -50,12 +50,13 @@ const UserAndJobCard = (props) => {
       >
         Assigned Jobs
       </Button>
-      <Link to={`/useredit/${props.user.userId}`}>
+      <Link to={`/edituser/${props.user.userId}`}>
         <Button color="primary">Edit</Button>
       </Link>
       <DeleteButton
         selectedId={props.user.userId}
         refreshPage={props.refreshPage}
+        deletedItem={"User"}
       />
       <CollapseJobList
         jobList={props.user.postedJobs}

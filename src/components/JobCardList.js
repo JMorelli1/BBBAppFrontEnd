@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Button, Col } from "reactstrap";
+import { Link } from "react-router-dom";
 import JobCard from "./JobCard";
 import CollapseUserList from "../components/CollapseUserList.js";
+import DeleteButton from "./DeleteButton";
 
 const JobCardList = (props) => {
   const [assignedUser, setAssignedUser] = useState([]);
@@ -28,6 +30,14 @@ const JobCardList = (props) => {
           >
             Assigned Users
           </Button>
+          <Link to={`/editjob/${postedJob.jobId}`}>
+            <Button color="primary">Edit</Button>
+          </Link>
+          <DeleteButton
+            refreshPage={props.refreshPage}
+            selectedId={postedJob.jobId}
+            deletedItem={"Job"}
+          />
           <CollapseUserList
             userList={postedJob.assignedUsers}
             index={index}

@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { Button, Form, Container } from "reactstrap";
-import { loadAllUserData } from "../../services/UserService.js";
-import { createJob } from "../../services/JobService.js";
+import { updateJob, loadJobData } from "../../services/JobService.js";
 import DisplayAlert from "../../components/DisplayAlert.js";
 import EditFormInput from "../../components/EditFormInput.js";
-import UserListGroup from "../../components/UserListGroup.js";
 
-const JobCreatePage = () => {
+const JobEdit = () => {
+  const { jobId } = useParams();
+  const history = useHistory();
+
+  const [jobInfo, setJobInfo] = useState({});
   const [displayAlert, setDisplayAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-  const [userInfo, setUserInfo] = useState([]);
-  const [isSelected, setIsSelected] = useState([]);
-
-  const jobInfo = {};
 
   useEffect(() => {
     const loadData = async () => {
-      await loadAllUserData()
-        .then((userData) => {
-          if (userData) setUserInfo(userData);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      await loadJobData(jobId).then((jobData) => {
+        if (jobData) {
+          setJobInfo(jobData);
+        } else {
+          setAlertStatus("fail");
+          setAlertMessage("There was an error uploading the user!");
+          setDisplayAlert(true);
+        }
+      });
     };
     loadData();
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmit = async (event) => {
@@ -34,31 +36,30 @@ const JobCreatePage = () => {
       jobTitle: event.target.jobTitle.value,
       description: event.target.description.value,
     };
-    await createJob(newJob, isSelected).then((isCreated) => {
-      if (isCreated) {
-        setDisplayAlert(true);
+    await updateJob(jobId, newJob).then((successfullyUpdated) => {
+      if (successfullyUpdated) {
         setAlertStatus("success");
-        setAlertMessage("You have successfully created a new job!");
-      } else {
+        setAlertMessage("Congragulations, you successfully updated user!");
         setDisplayAlert(true);
-        setAlertStatus("fail");
-        setAlertMessage("Error creating a new job!");
       }
     });
   };
 
   return (
     <div style={{ textAlign: "left" }}>
-      <Container style={{ marginTop: 30 }}>
+      <Container>
+        <Button
+          onClick={() => {
+            history.push("/jobs");
+          }}
+          color="secondary"
+        >
+          Return
+        </Button>
         <DisplayAlert
           status={alertStatus}
           showAlert={displayAlert}
           message={alertMessage}
-        />
-        <UserListGroup
-          users={userInfo}
-          isSelected={isSelected}
-          setIsSelected={setIsSelected}
         />
         <Form onSubmit={handleSubmit}>
           <EditFormInput
@@ -80,4 +81,4 @@ const JobCreatePage = () => {
   );
 };
 
-export default JobCreatePage;
+export default JobEdit;

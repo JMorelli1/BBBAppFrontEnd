@@ -8,6 +8,7 @@ const Header = () => {
   const userLinks = [
     { linkPath: "/users", linkTag: "View Users" },
     { linkPath: "/createuser", linkTag: "Create User" },
+    { linkPath: "/assignuser", linkTag: "Assign User" },
   ];
 
   const jobLinks = [
